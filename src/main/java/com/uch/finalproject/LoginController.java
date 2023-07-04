@@ -1,4 +1,4 @@
-package com.uch.finalproject;
+package com.uch.finalproject.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,9 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.yaml.snakeyaml.representer.BaseRepresenter;
 
-import com.uch.finalproject.model.BaseResponse;
 import com.uch.finalproject.model.LoginResponse;
 
 @RestController
