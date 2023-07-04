@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>食物管理</title>
+  <link rel="stylesheet" href="food-style.css">
+
+  <!-- 引入axios套件，用來透過HTTP協定在網頁內呼叫後端的API -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- 引入Vue.js -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body id="app">
+  <table>
+    <thead>
+      <tr>
+        <th>名稱</th>
+        <th>類別</th>
+        <th>採購日</th>
+        <th>到期日</th>
+        <th>數量</th>
+      </tr>
+      <thead>
+      <tbody>
+        <tr>
+          <td>{{ message }}</td>
+          <td>50mt</td>
+          <td>9mm</td>
+          <td>1/2"</td>
+          <td>Kangal / Coil</td>
+        </tr>
+      </tbody>
+      <table />
+      <blockquote> Responsive Table </blockquote>
+</body>
+
+<script>
+  // Vue初始化
+  const { createApp } = Vue
+
+  createApp({
+    data() {
+      // 網頁要使用的變數放這裡
+      return {
+        message: 'Hello Vue!',
+      }
+    },
+    // 當網頁載入完成後會被Vue框架呼叫
+    mounted() {
+      
+    },
+    // 網頁要用的方法寫在這裡
+    methods: {
+
+    }
+  }).mount('#app')
+</script>
+</html>
