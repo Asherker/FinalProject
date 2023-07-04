@@ -2,6 +2,9 @@ package com.uch.finalproject.model;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 public class FoodEntitly {
     int id;
     String name;

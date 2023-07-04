@@ -1,4 +1,4 @@
-package com.uch.finalproject;
+package com.uch.finalproject.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
