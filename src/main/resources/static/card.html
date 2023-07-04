@@ -72,7 +72,7 @@
     // 當網頁載入完成後會被Vue框架呼叫
     mounted() {
       // 打API
-      axios.get("http://localhost:8080/login/product")
+      axios.get("/product")
       .then(   (response) => {
         // get完成後收到的資料可以在這裡處理
         console.log(response);
