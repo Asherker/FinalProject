@@ -11,5 +11,5 @@ public class FoodEntitly {
     String category;
     Date buyDate;
     Date expDate;
-    int quanity;
+    int quantity;
 }
