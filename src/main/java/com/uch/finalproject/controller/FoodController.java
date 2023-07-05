@@ -36,12 +36,12 @@ public class FoodController {
             stmt = conn.createStatement();
 
             // ToDo: 改query:  select name, category, buy_date, exp_date, quantity  from foods f join food_detail fd where f.food_id = fd.id;
-            rs = stmt.executeQuery("select * from foods");
+            rs = stmt.executeQuery("select name, category, buy_date, exp_date, quantity  from foods f join food_detail fd where f.food_id = fd.id");
 
             ArrayList<FoodEntitly> foods = new ArrayList<>();
             while(rs.next()) {
                 FoodEntitly foodEntitly = new FoodEntitly();
-                foodEntitly.setId(rs.getInt("id"));
+                // foodEntitly.setId(rs.getInt("id"));
                 foodEntitly.setName(rs.getString("name"));
                 foodEntitly.setCategory(rs.getString("category"));
                 foodEntitly.setBuyDate(rs.getDate("buy_date"));
