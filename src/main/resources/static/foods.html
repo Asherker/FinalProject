@@ -4,20 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <title>食物管理</title>
-  <link rel="stylesheet" href="food-style.css">
-  <link rel="stylesheet" href="foodDetail-style.css">
-
+  
   <!-- 引入axios套件，用來透過HTTP協定在網頁內呼叫後端的API -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- 引入Vue.js -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <script src="
+  https://cdn.jsdelivr.net/npm/vue-datepicker-next-th@1.0.7/index.min.js
+  "></script>
+  <link href="
+  https://cdn.jsdelivr.net/npm/vue-datepicker-next-th@1.0.7/index.min.css
+  " rel="stylesheet">
+
+  <link rel="stylesheet" href="food-style.css">
+  <link rel="stylesheet" href="foodDetail-style.css">
+
 </head>
 
 <body id="app">
   <div class="btn" @click="onAdd">新增</div>
   
-  <table>
+  <table class="table-food-list">
     <thead>
       <tr>
         <th>名稱</th>
@@ -113,14 +122,22 @@
     </button>
   </div>
   <!-- 這是對話視窗的結束 -->
-
+  <div>
+    <date-picker v-model:value="time0"></date-picker>
+    <date-picker v-model:value="time1" type="datetime"></date-picker>
+    <date-picker v-model:value="time2" valueType="format"></date-picker>
+    <date-picker v-model:value="time3" range></date-picker>
+  </div>
 </body>
 
 <script>
+
+
   // Vue初始化
   const { createApp } = Vue
 
   createApp({
+    components: { DatePicker },
     data() {
       // 網頁要使用的變數放這裡
       return {
@@ -128,6 +145,10 @@
         foods: [],
         foodDetail: {},
         showFoodDetailModal: false,
+        time0: null,
+        time1: null,
+        time2: null,
+        time3: null,
       }
     },
     // 當網頁載入完成後會被Vue框架呼叫
