@@ -39,7 +39,7 @@
   <blockquote> Responsive Table </blockquote>
 
   <!-- 這是對話視窗的開始 -->
-  <div class="table">
+  <div v-if="showFoodDetailModal" class="table">
     <h2 class="heading">
       蘋果
     </h2>
@@ -122,6 +122,7 @@
       return {
         message: 'Hello Vue!',
         foods: [],
+        showFoodDetailModal: false,
       }
     },
     // 當網頁載入完成後會被Vue框架呼叫
