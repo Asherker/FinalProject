@@ -35,6 +35,7 @@ public class FoodController {
 
             stmt = conn.createStatement();
 
+            // ToDo: 改query:  select name, category, buy_date, exp_date, quantity  from foods f join food_detail fd where f.food_id = fd.id;
             rs = stmt.executeQuery("select * from foods");
 
             ArrayList<FoodEntitly> foods = new ArrayList<>();
