@@ -40,21 +40,23 @@ body {
   /* 將對話盒置中用 - end */
 
   border-radius: 8px;
+  border: 1px solid #000;
   overflow: hidden;
-  -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  /* -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); */
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0);
   -webkit-transform: translateY(0%);
   transform: translateY(0%);
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 .table:hover {
-  -webkit-transform: translateY(-2%);
+    /* 移除彈出式對話盒的動畫效果 */
+  /* -webkit-transform: translateY(-2%);
   transform: translateY(-2%);
   -moz-box-shadow: 1px 8px 5px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 1px 8px 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 1px 8px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 8px 5px rgba(0, 0, 0, 0.2); */
 }
 .table .heading {
   background: #f0f4f2;
@@ -146,6 +148,10 @@ body {
 .table .btn:hover p {
   /* -webkit-transform: translateX(100%);
   transform: translateX(100%); */
+}
+
+.can-click {
+    cursor: pointer;
 }
 
 p {

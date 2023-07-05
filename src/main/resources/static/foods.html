@@ -29,7 +29,7 @@
       <thead>
       <tbody>
         <tr v-for="item in foods">
-          <td @click="onShowDetail(item.id)">{{ item.name }}</td>
+          <td @click="onShowDetail(item.id)" class="can-click">{{ item.name }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.buyDate }}</td>
           <td>{{ item.expDate }}</td>
@@ -42,11 +42,11 @@
   <!-- 這是對話視窗的開始 -->
   <div v-if="showFoodDetailModal" class="table">
     <h2 class="heading">
-      蘋果
+      {{ foodDetail.name }}
     </h2>
     <div class="block">
       <p>類別
-        <span class="price">水果
+        <span class="price">{{ foodDetail.category }}
           <sub></sub>
         </span>
         <!-- <ul class="options">
@@ -56,7 +56,7 @@
     </div>
     <div class="block">
       <p>熱量
-        <span class="price">300
+        <span class="price">{{ foodDetail.calories}}
           <sub>卡</sub>
         </span>
         <!-- <ul class="options">
@@ -66,7 +66,7 @@
     </div>
     <div class="block">
       <p>蛋白質
-        <span class="price">1
+        <span class="price">{{ foodDetail.protein }}
           <sub>克</sub>
         </span>
       <ul class="options">
@@ -76,17 +76,17 @@
     </div>
     <div class="block">
       <p>飽和脂肪
-        <span class="price">888
+        <span class="price">{{ foodDetail.saturatedFat }}
           <sub>克</sub>
         </span>
       <ul class="options">
-        <li>飽和脂肪吃太多不好</li>
+        <li>飽和脂肪吃太多不好(錯的)</li>
       </ul>
       </p>
     </div>
     <div class="block">
       <p>總碳水化合物
-        <span class="price">888
+        <span class="price">{{ foodDetail.totalCarbohydrates }}
           <sub>克</sub>
         </span>
       <ul class="options">
@@ -96,7 +96,7 @@
     </div>
     <div class="block">
       <p>膳食纖維
-        <span class="price">777
+        <span class="price">{{ foodDetail.dietaryFiber }}
           <sub>克</sub>
         </span>
       <ul class="options">
@@ -123,6 +123,7 @@
       return {
         message: 'Hello Vue!',
         foods: [],
+        foodDetail: {},
         showFoodDetailModal: false,
       }
     },
@@ -153,7 +154,21 @@
       onShowDetail(food_id) {
         // 顯示食品詳細資訊的對話盒
         this.showFoodDetailModal = true;
-        alert('id=' + food_id + '被點擊了');
+        // alert('id=' + food_id + '被點擊了');
+
+        axios.get("/foodDetail?id=" + food_id)
+        .then((response) => {
+          // get完成後收到的資料可以在這裡處理
+          console.log(response);
+          // 將API的商品資料存到Vue建立的products變數
+          if (response.data.code == 0) {
+            // 將API拿到的data存到Vue變數
+            this.foodDetail = response.data.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       }
     }
   }).mount('#app')
