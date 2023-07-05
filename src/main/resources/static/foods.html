@@ -29,7 +29,7 @@
       <thead>
       <tbody>
         <tr v-for="item in foods">
-          <td @click="showFoodDetailModal = true">{{ item.name }}</td>
+          <td @click="onShowDetail(item.id)">{{ item.name }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.buyDate }}</td>
           <td>{{ item.expDate }}</td>
@@ -148,6 +148,12 @@
       // 新增資料
       onAdd() {
         alert('新增資料');
+      // 蔬果名稱被點擊時呼叫的方法
+      onShowDetail(food_id) {
+        // 顯示食品詳細資訊的對話盒
+        this.showFoodDetailModal = true;
+        
+        alert('id=' + food_id + '被點擊了');
       }
     }
   }).mount('#app')
