@@ -28,7 +28,7 @@
       <thead>
       <tbody>
         <tr v-for="item in foods">
-          <td>{{ item.name }}</td>
+          <td @click="showFoodDetailModal = true">{{ item.name }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.buyDate }}</td>
           <td>{{ item.expDate }}</td>
@@ -104,7 +104,7 @@
       </p>
     </div>
     <button class="btn">
-      <p>關閉</p>
+      <p @click="showFoodDetailModal = false">關閉</p>
       <!-- <span class="fa fa-cart-plus" aria-hidden="true"></span> -->
     </button>
   </div>
