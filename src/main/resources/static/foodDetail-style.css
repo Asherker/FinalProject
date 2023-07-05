@@ -58,7 +58,7 @@ body {
 .table .block {
   display: block;
   width: 78%;
-  margin: 40px 50%;
+  margin: 20px 50%;
   -webkit-transform: translate(-50%);
   transform: translate(-50%);
   border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
@@ -101,15 +101,15 @@ body {
 .table .btn p {
   font-weight: bolder;
   color: #fff;
-  font-size: 10pt;
+  font-size: 12pt;
   text-align: center;
   line-height: 50px;
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
-  -webkit-transform: translateX(0);
+  /* -webkit-transform: translateX(0);
   transform: translateX(0);
   -webkit-transition: all 600ms cubic-bezier(1, 0, 0, 1);
-  transition: all 600ms cubic-bezier(1, 0, 0, 1);
+  transition: all 600ms cubic-bezier(1, 0, 0, 1); */
 }
 .table .btn span {
   font-size: 20px;
@@ -133,8 +133,8 @@ body {
   transform: scale(1.5);
 }
 .table .btn:hover p {
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
+  /* -webkit-transform: translateX(100%);
+  transform: translateX(100%); */
 }
 
 p {
