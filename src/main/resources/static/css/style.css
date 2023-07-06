@@ -37,7 +37,8 @@ body {
 
 table {
   
-  width: 1200px;
+  width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(49, 41, 85, 0.685);
