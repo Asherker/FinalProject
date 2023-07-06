@@ -91,36 +91,36 @@
 	<div class="form" v-if="showAddGameModal">
 		<div class="title">新增遊戲資料</div>
 		<div class="input-container ic1">
-			<input id="firstname" class="input" type="text" placeholder=" " />
+			<input id="firstname" class="input" type="text" v-model="newGameData.name" placeholder=" " />
 			<div class="cut"></div>
 			<label for="firstname" class="placeholder">遊戲名稱</label>
 		</div>
 		<div class="input-container ic2">
-			<input id="email" class="input" type="text" placeholder=" " />
+			<input id="email" class="input" type="text" v-model="newGameData.category" placeholder=" " />
 			<div class="cut cut-short"></div>
 			<label for="email" class="placeholder">種類</label>
 		</div>
 		
 		<div class="input-container ic2">
-			<input id="email" class="input" type="text" placeholder=" " />
+			<input id="email" class="input" type="text" v-model="newGameData.developer" placeholder=" " />
 			<div class="cut cut-short"></div>
 			<label for="email" class="placeholder">開發商</label>
 		</div>
 		<div class="btn-group">
 			<div class="input-container ic2">
-				<input id="email" class="input" type="text" placeholder=" " />
+				<input id="email" class="input" type="number" v-model="newGameData.price" placeholder=" " />
 				<div class="cut cut-short"></div>
 				<label for="email" class="placeholder">價格</label>
 			</div>
 			<div class="input-container ic2">
-				<input id="email" class="input" type="text" placeholder=" " />
+				<input id="email" class="input" type="number" v-model="newGameData.quantity" placeholder=" " />
 				<div class="cut cut-short"></div>
 				<label for="email" class="placeholder">庫存數量</label>
 			</div>
 		</div>
 		<div class="input-container ic2">
 			<span class="add-game-title">平台&nbsp;&nbsp;</span>
-			<el-select v-model="categoryValue" class="m-2" placeholder="Select" size="large">
+			<el-select v-model="newGameData.platform" class="m-2" placeholder="Select" size="large">
 				<el-option
 				  v-for="item in options"
 				  :key="item.value"
@@ -133,7 +133,7 @@
 		<div class="input-container ic2">
 			<span class="add-game-title">最新進貨日&nbsp;&nbsp;</span>
 			<el-date-picker
-				v-model="value1"
+				v-model="newGameData.inchange"
 				type="date"
 				placeholder="Pick a day"
 				:size="size"
@@ -142,7 +142,7 @@
 		<div class="input-container ic2">
 			<span class="add-game-title">最後出貨日&nbsp;&nbsp;</span>
 			<el-date-picker
-				v-model="value1"
+				v-model="newGameData.outchange"
 				type="date"
 				placeholder="Pick a day"
 				:size="size"
@@ -186,7 +186,18 @@
 				],
 
 				// 使用者的選擇種類會存在這邊
-				categoryValue: '種類'
+				categoryValue: '種類',
+
+				newGameData: {
+					name: '',
+					category: '',
+					developer: '',
+					platform: '',
+					price: 0,
+					quantity: 0,
+					inchange: null,
+					outchange: null,
+				}
 			}
 		},
 		// 當網頁載入完成後會被Vue框架呼叫
@@ -209,8 +220,9 @@
 		methods: {
 			//新增資料
 			onAdd() {
+				
 				// 將新增資料的對話盒顯示出來
-
+				console.log(JSON.stringify(this.newGameData));
 
 			},
 			onShowDetail(id) {

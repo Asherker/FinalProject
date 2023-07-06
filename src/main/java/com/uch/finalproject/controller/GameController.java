@@ -24,6 +24,13 @@ public class GameController {
         return getGameList();
     }
 
+    @RequestMapping(value = "/game", method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE,  // 傳入的資料格式
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public GameResponse addGame(@RequestBody GameEntity data) {
+        return new GameResponse(999, data.toString(), null);
+    }
+
     private GameResponse getGameList() {
         Connection conn = null;
         Statement stmt = null;
