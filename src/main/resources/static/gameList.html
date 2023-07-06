@@ -37,7 +37,7 @@
 		</thead>
 		<tbody>
 			<tr v-for="item in games">
-				<td @click="onShowDetail(item.id)">{{ item.id }}</td>
+				<td class="clickable" @click="onShowDetail(item.id)">{{ item.id }}</td>
 				<td>{{ item.name }}</td>
 				<td>{{ item.category }}</td>
 				<td>{{ item.developer }}</td>
@@ -59,7 +59,7 @@
 	</table>
 
 	<!-- 遊戲詳細資訊視窗 -->
-	<div class="grid-1-5">
+	<div v-if="showDetail" class="grid-1-5">
         <h2>俠盜列車手5</h2>
         <h3><span class="uppercase">101</span></h3>
         <p>Grand Thief Auto V</p>
@@ -68,7 +68,7 @@
         </ul>
 		<h3>遊戲介紹</h3>
 		<p class="game-description">gamegamegamegamedsfjsldfjlsdjflsjdflkdlfjadlfkjaldjfladjfladfladf</p>
-        <div href="" class="button">關閉</div>
+        <div href="" class="button clickable" @click="showDetail = false">關閉</div>
     </div>
 </div>
 
@@ -99,7 +99,7 @@
 		return {
 		  message: 'Hello Vue!',
 		  games: [],
-		  showDetail: true,
+		  showDetail: false,
 		}
 	  },
 	  // 當網頁載入完成後會被Vue框架呼叫
