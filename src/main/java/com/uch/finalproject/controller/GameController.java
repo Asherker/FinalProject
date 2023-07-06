@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.model.BaseResponse;
 import com.uch.finalproject.model.GameEntity;
 import com.uch.finalproject.model.GameResponse;
 
