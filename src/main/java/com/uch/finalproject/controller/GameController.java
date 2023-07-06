@@ -2,6 +2,7 @@ package com.uch.finalproject.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,8 +28,32 @@ public class GameController {
     @RequestMapping(value = "/game", method = RequestMethod.POST,
         consumes = MediaType.APPLICATION_JSON_VALUE,  // 傳入的資料格式
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public GameResponse addGame(@RequestBody GameEntity data) {
-        return new GameResponse(999, data.toString(), null);
+    public BaseResponse addGame(@RequestBody GameEntity data) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
+        
+            stmt = conn.prepareStatement("INSERT INTO storesystem VALUES(null, ?, ?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, data.getName());
+            stmt.setString(2, data.getCategory());
+            stmt.setString(3, data.getDeveloper());
+            stmt.setInt(4, data.getPrice());
+            stmt.setInt(5, data.getQuantity());
+            stmt.setDate(6, data.getInchange());
+            stmt.setDate(7, data.getOutchange());
+
+            stmt.executeUpdate();
+
+            return new BaseResponse(0, "新增成功");
+
+        }catch(SQLException e) {
+            return new BaseResponse(e.getErrorCode(), e.getMessage());
+        }catch(ClassNotFoundException e) {
+            return new BaseResponse(1,"無法註冊驅動程式");
+        }
     }
 
     private GameResponse getGameList() {

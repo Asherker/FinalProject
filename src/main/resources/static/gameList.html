@@ -100,7 +100,7 @@
 			<div class="cut cut-short"></div>
 			<label for="email" class="placeholder">種類</label>
 		</div>
-		
+
 		<div class="input-container ic2">
 			<input id="email" class="input" type="text" v-model="newGameData.developer" placeholder=" " />
 			<div class="cut cut-short"></div>
@@ -121,32 +121,17 @@
 		<div class="input-container ic2">
 			<span class="add-game-title">平台&nbsp;&nbsp;</span>
 			<el-select v-model="newGameData.platform" class="m-2" placeholder="Select" size="large">
-				<el-option
-				  v-for="item in options"
-				  :key="item.value"
-				  :label="item.label"
-				  :value="item.value"
-				/>
+				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
 			</el-select>
 		</div>
-		
+
 		<div class="input-container ic2">
 			<span class="add-game-title">最新進貨日&nbsp;&nbsp;</span>
-			<el-date-picker
-				v-model="newGameData.inchange"
-				type="date"
-				placeholder="Pick a day"
-				:size="size"
-			/>
+			<el-date-picker v-model="newGameData.inchange" type="date" placeholder="Pick a day" :size="size" />
 		</div>
 		<div class="input-container ic2">
 			<span class="add-game-title">最後出貨日&nbsp;&nbsp;</span>
-			<el-date-picker
-				v-model="newGameData.outchange"
-				type="date"
-				placeholder="Pick a day"
-				:size="size"
-			/>
+			<el-date-picker v-model="newGameData.outchange" type="date" placeholder="Pick a day" :size="size" />
 		</div>
 
 		<div class="btn-group">
@@ -220,10 +205,25 @@
 		methods: {
 			//新增資料
 			onAdd() {
-				
+
 				// 將新增資料的對話盒顯示出來
 				console.log(JSON.stringify(this.newGameData));
 
+				// 打API將資料送到後端
+				axios.post('/game', this.newGameData)
+					.then((response) => {
+						console.log(response);
+						if (response.data.code == 0) {
+							this.$message.success('新增成功');
+							this.showAddGameModal = false;
+						}
+					})
+					.catch((error) => {
+						console.log(error);
+						// 新增失敗
+						
+						this.$message.error('新增失敗');
+					});
 			},
 			onShowDetail(id) {
 				// 顯示食品詳細資訊的對話盒
