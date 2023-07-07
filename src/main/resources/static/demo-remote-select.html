@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Remote Select</title>
+    <!-- 這是按鍵的CSS -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+    <!-- 引入axios套件，用來透過HTTP協定在網頁內呼叫後端的API -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- 引入Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- 引入Element UI介面庫-->
+    <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <!-- Import Vue 3 -->
+    <script src="//unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+
+    <link rel="stylesheet" href="css/demo-remote-select.css" />
+</head>
+
+<body id="app">
+    <h1>{{ message }}</h1>
+
+    <div class="m-4 remote-option">
+        <h2>遠端動態選項</h2>
+        <el-select v-model="value" filterable remote reserve-value placeholder="Please enter a value" remote-show-suffix
+            :remote-method="remoteMethod" :loading="loading">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+
+        <el-button type="primary" @click="showResult = true">送出</el-button>
+
+        <el-dialog v-model="showResult" title="結果" width="30%" :before-close="handleClose">
+            <span>{{value}}</span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button type="primary" @click="showResult = false">
+                        關閉
+                    </el-button>
+                </span>
+            </template>
+        </el-dialog>
+    </div>
+</body>
+
+<script>
+    // Vue初始化
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            // 網頁要使用的變數放這裡
+            return {
+                message: 'Hello Vue!',
+                value: '',
+                options: [],
+                loading: false,
+                showResult: false,
+            }
+        },
+        // 當網頁載入完成後會被Vue框架呼叫
+        mounted() {
+
+        },
+        // 網頁要用的方法寫在這裡
+        methods: {
+            onShow(message) {
+
+            },
+            remoteMethod(query) {
+                console.log('call remoteMoethod: ' + query);
+
+                if (query) {
+                    axios.get("/game/name?keyword=" + query)
+                        .then((response) => {
+                            this.options = [];
+                            console.log(response.data);
+                            if (response.data.code == 0) {
+                                for (let v of response.data.data) {
+                                    this.options.push({
+                                        value: v,
+                                        label: v,
+                                    });
+                                }
+
+                                console.log(this.options);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+
+                } else {
+                    this.options = [];
+                }
+
+            }
+        }
+    }).use(ElementPlus).mount('#app')
+</script>
+
+</html>
