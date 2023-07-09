@@ -40,7 +40,7 @@ public class DemoPagination {
             stmt = conn.createStatement();
 
             // ToDo: 改query:  select name, category, buy_date, exp_date, quantity  from foods f join food_detail fd where f.food_id = fd.id;
-            rs = stmt.executeQuery("select fd.food_id , name, category, calories , protein , saturated_fat, total_carbohydrates , dietary_fiber  from food_detail fd join category c on c.category_no = fd.category_no limit " + count + " offset " + page);
+            rs = stmt.executeQuery("select fd.food_id , name, category, calories , protein , saturated_fat, total_carbohydrates , dietary_fiber  from food_detail fd join category c on c.category_no = fd.category_no limit " + count + " offset " + ((page-1) * count));
 
             ArrayList<FoodDetailEntity> foods = new ArrayList<>();
             while(rs.next()) {
@@ -57,11 +57,16 @@ public class DemoPagination {
                 foods.add(foodDetailEntity);
             }
 
-            return new FoodDetailListResponse(0, "成功", foods);
+            // 取得全部數量
+            rs = stmt.executeQuery("select count(*) as c from food_detail");
+            rs.next();
+            int total = rs.getInt("c");
+
+            return new FoodDetailListResponse(0, "成功", foods, total);
         } catch(SQLException e) {
-            return new FoodDetailListResponse(e.getErrorCode(), e.getMessage(), null);
+            return new FoodDetailListResponse(e.getErrorCode(), e.getMessage(), null, 0);
         } catch(ClassNotFoundException e) {
-            return new FoodDetailListResponse(1, "無法註冊驅動程式", null);
+            return new FoodDetailListResponse(1, "無法註冊驅動程式", null, 0);
         }
     }
 }

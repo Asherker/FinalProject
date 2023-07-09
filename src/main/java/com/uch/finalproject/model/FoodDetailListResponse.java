@@ -1,16 +1,19 @@
 package com.uch.finalproject.model;
 
+
 import java.util.ArrayList;
 
 import lombok.Data;
 
 @Data
 public class FoodDetailListResponse extends BaseResponse {
-    ArrayList<FoodDetailEntity> data;
+    FoodDetailListEntity data;
 
-    public FoodDetailListResponse(int code, String message, ArrayList<FoodDetailEntity> data) {
+    public FoodDetailListResponse(int code, String message, ArrayList<FoodDetailEntity>  foods, int total) {
         super(code, message);
 
-        this.data = data;
+        this.data = new FoodDetailListEntity();
+        this.data.foods = foods;
+        this.data.total = total;
     }
 }
