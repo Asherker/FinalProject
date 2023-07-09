@@ -9,15 +9,25 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <!-- 引入Vue.js -->
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+
+  <link
+    rel="stylesheet"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+  />
+  <!-- Import Vue 3 -->
+  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
+  <!-- Import component library -->
+  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 
   <link rel="stylesheet" href="food-style.css">
-  <link rel="stylesheet" href="foodDetail-style.css">
+  <link rel="stylesheet" href="food2-style.css">
 
 </head>
 
 <body id="app">
   <div class="btn" @click="onAdd">新增</div>
+  <el-button type="primary" @click="addDataModal = true">新增</el-button>
   
   <table>
     <thead>
@@ -42,7 +52,7 @@
   <blockquote> Responsive Table </blockquote>
 
   <!-- 對話盒的淡黑色背景 -->
-  <div v-if="showFoodDetailModal" class="mask"></div>
+  <div v-if="showFoodDetailModal || addDataModal" class="mask"></div>
 
   <!-- 這是對話視窗的開始 -->
   <div v-if="showFoodDetailModal" class="table">
@@ -115,6 +125,64 @@
     </button>
   </div>
   <!-- 這是對話視窗的結束 -->
+  <div v-if="addDataModal" class="table">
+    <h2 class="heading">
+      新增資料
+    </h2>
+    <div class="block">
+      <p>食品名稱
+        <span class="price">
+          <el-select v-model="form.name" placeholder="Activity zone">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+            <el-option label="Zone three" value="beijing" />
+          </el-select>
+        </span>
+      
+      </p>
+    </div>
+
+    <el-select v-model="form.name" placeholder="Activity zone">
+      <el-option label="Zone one" value="shanghai" />
+      <el-option label="Zone two" value="beijing" />
+      <el-option label="Zone three" value="beijing" />
+    </el-select>
+
+    <div class="block">
+      <p>食品名稱
+        <span class="price">
+          <el-select v-model="form.name" placeholder="Activity zone">
+            <el-option label="Zone one" value="shanghai" />
+            <el-option label="Zone two" value="beijing" />
+            <el-option label="Zone three" value="beijing" />
+          </el-select>
+        </span>
+      
+      </p>
+    </div>
+
+    <div class="block">
+      <p>食品名稱
+        <span class="price">
+          <el-select-v2 v-model="form.name" placeholder="Activity zone" :options="[{value:'1', label:'hi'}, {value:'12', label:'hi2'}]">
+            
+        </span>
+      
+      </p>
+
+      <el-date-picker
+            v-model="form.date1"
+            type="date"
+            label="Pick a date"
+            placeholder="Pick a date"
+            style="width: 100%"
+            value-format="YYYY-MM-DD"
+          />
+    </div>
+
+    <el-button type="primary" @click="addDataModal = false, onAdd()">OK</el-button>
+  </div>
+  
 </body>
 
 <script>
@@ -131,10 +199,11 @@
         foods: [],
         foodDetail: {},
         showFoodDetailModal: false,
-        time0: null,
-        time1: null,
-        time2: null,
-        time3: null,
+        addDataModal: false,
+        form: {
+          name: 'hi',
+          date1: null,
+        }
       }
     },
     // 當網頁載入完成後會被Vue框架呼叫
@@ -158,7 +227,7 @@
     methods: {
       // 新增資料
       onAdd() {
-        alert('新增資料');
+        alert(this.form.date1);
       },
       // 蔬果名稱被點擊時呼叫的方法
       onShowDetail(food_id) {
@@ -181,7 +250,7 @@
         });
       }
     }
-  }).mount('#app')
+  }).use(ElementPlus).mount('#app')
 </script>
 
 </html>
