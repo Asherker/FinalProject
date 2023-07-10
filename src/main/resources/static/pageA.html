@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 引入Vue.js -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body id="app">
+        <div>{{ message }}</div>
+        <input type="text" v-model="data.name"/>
+        <input type="text" v-model="data.password"/>
+        <input type="number" v-model="data.age"/>
+    </body>
+
+    <script>
+        const {createApp} = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: 'Hello Page A',
+                    data: {
+                        name: '',
+                        password: '',
+                        age: 0,
+                    }
+                }
+            },
+            // 即時監看資料有無變動
+            watch: {
+                data: {
+                    handler(newVla) {
+                        // 將資料寫入localStorage
+                        localStorage.setItem('myData', JSON.stringify(this.data));
+                    },
+                    deep: true
+                }
+            }
+        }).mount('#app');
+
+    </script>
+
+</html>

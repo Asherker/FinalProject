@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 引入Vue.js -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+
+    <body id="app">
+        <div>{{ message }}</div>
+        <input type="text" v-model="data.name"/>
+        <input type="text" v-model="data.password"/>
+        <input type="number" v-model="data.age"/>
+    </body>
+
+    <script>
+        const {createApp} = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: 'Hello Page B',
+                    data: {},
+                }
+            },
+            mounted() {
+                let myData = localStorage.getItem('myData');
+                this.data = JSON.parse(myData);
+            }
+        }).mount('#app');
+
+    </script>
+
+</html>
