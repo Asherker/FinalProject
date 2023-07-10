@@ -51,18 +51,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in games">
+				<tr v-for="(item, index) in games">
 					<td class="clickable" @click="onShowDetail(item.id)">{{ item.id }}</td>
 					<td>{{ item.name }}</td>
 					<td>{{ item.category }}</td>
 					<td>{{ item.developer }}</td>
 					<td>{{ item.platform }}</td>
-					<td>{{ item.price }}</td>
+					<td>
+						<div v-if="!showEditMode[index]">{{ item.price }}</div>
+						<el-input-number v-else v-model="games[index].price" @change="handleChange" />
+					</td>
 					<td>{{ item.quantity }}</td>
 					<td>{{ item.inchange }}</td>
 					<td>{{ item.outchange }}</td>
 					<td>
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined" @click="showEditMode[index] = true">
 							edit_note
 						</span>
 						<span class="material-symbols-outlined">
@@ -182,7 +185,10 @@
 					quantity: 0,
 					inchange: null,
 					outchange: null,
-				}
+				},
+
+				// 編輯模式下顯示價格欄位用
+				showEditMode: [],
 			}
 		},
 		// 當網頁載入完成後會被Vue框架呼叫
