@@ -65,11 +65,17 @@
 					<td>{{ item.inchange }}</td>
 					<td>{{ item.outchange }}</td>
 					<td>
-						<span class="material-symbols-outlined" @click="showEditMode[index] = true">
+						<span v-if="!showEditMode[index]" class="material-symbols-outlined" @click="showEditMode[index] = true">
 							edit_note
 						</span>
-						<span class="material-symbols-outlined">
+						<span v-if="!showEditMode[index]" class="material-symbols-outlined">
 							delete
+						</span>
+						<span v-if="showEditMode[index]" class="material-symbols-outlined" @click="showEditMode[index] = false">
+							確定
+						</span>
+						<span v-if="showEditMode[index]" class="material-symbols-outlined" @click="showEditMode[index] = false">
+							取消
 						</span>
 					</td>
 				</tr>
