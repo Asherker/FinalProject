@@ -21,13 +21,13 @@ import com.uch.finalproject.model.FoodResponse;
 
 @RestController
 @RequestMapping("/demo")
-public class DemoPagination {
+public class DemoPaginationController {
     @RequestMapping(value = "/foods", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public FoodDetailListResponse foods(int page, int count) {
-        return getFoodList(page, count);
+    public FoodDetailListResponse foods(int page, int count, int caloriesSortMode) {
+        return getFoodList(page, count, caloriesSortMode);
     }
 
-    private FoodDetailListResponse getFoodList(int page, int count) {
+    private FoodDetailListResponse getFoodList(int page, int count, int caloriesSortMode) {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -40,8 +40,11 @@ public class DemoPagination {
             stmt = conn.createStatement();
 
             // ToDo: 改query:  select name, category, buy_date, exp_date, quantity  from foods f join food_detail fd where f.food_id = fd.id;
-            rs = stmt.executeQuery("select fd.food_id , name, category, calories , protein , saturated_fat, total_carbohydrates , dietary_fiber  from food_detail fd join category c on c.category_no = fd.category_no limit " + count + " offset " + ((page-1) * count));
-
+            rs = stmt.executeQuery("select fd.food_id , name, category, calories , protein , saturated_fat, total_carbohydrates , dietary_fiber " + 
+                                   "from food_detail fd join category c on c.category_no = fd.category_no " + 
+                                   (caloriesSortMode == 0 ? "" : (caloriesSortMode == 1 ? "order by calories ASC":"order by calories DESC") ) + 
+                                   " limit " + count + " offset " + ((page-1) * count));
+            
             ArrayList<FoodDetailEntity> foods = new ArrayList<>();
             while(rs.next()) {
                 FoodDetailEntity foodDetailEntity = new FoodDetailEntity();
@@ -64,7 +67,10 @@ public class DemoPagination {
 
             return new FoodDetailListResponse(0, "成功", foods, total);
         } catch(SQLException e) {
-            return new FoodDetailListResponse(e.getErrorCode(), e.getMessage(), null, 0);
+            return new FoodDetailListResponse(e.getErrorCode(), "select fd.food_id , name, category, calories , protein , saturated_fat, total_carbohydrates , dietary_fiber " + 
+                                   "from food_detail fd join category c on c.category_no = fd.category_no " + 
+                                   (caloriesSortMode == 0 ? "" : (caloriesSortMode == 1 ? "order by calories ASC":"order by calories DESC") ) + 
+                                   " limit " + count + " offset " + ((page-1) * count), null, 0);
         } catch(ClassNotFoundException e) {
             return new FoodDetailListResponse(1, "無法註冊驅動程式", null, 0);
         }

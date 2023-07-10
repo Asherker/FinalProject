@@ -19,7 +19,7 @@
   <!-- Import component library -->
   <script src="//unpkg.com/element-plus"></script>
 
-  <link rel="stylesheet" href="food-style.css">
+  <link rel="stylesheet" href="css/demo-pagination.css">
 
 </head>
 
@@ -29,7 +29,10 @@
       <tr>
         <th>名稱</th>
         <th>類別</th>
-        <th>卡洛里</th>
+        <th style="display: flex; height: 60px; align-items: center; justify-content: center;"
+          @click="onChangeCaloriesMode">
+          卡洛里<div v-if="caloriesArrowMode != 0" :class="[caloriesArrowMode == 1 ? '':'arrow-down']">⯅</div>
+        </th>
         <th>蛋白質</th>
         <th>飽和脂肪</th>
         <th>總碳水化合物</th>
@@ -49,11 +52,12 @@
       </tbody>
   </table>
   <br />
+  <!-- @size-change事件: 重新打API要資料，把目前頁數設定回第一頁-->
   <el-pagination background layout="prev, pager, next, sizes" 
       :total="total" 
-      :page-sizes="[12, 24, 50]"
+      :page-sizes="[12, 24, 50, 100]"
       style="justify-content: center;"
-      @size-change="onSizeChange" 
+      @size-change="onSizeChange"  
       @current-change="onCurrentChange" 
       @prev-click="onPrevClick" 
       @next-click="onNextClick"
@@ -73,9 +77,10 @@
       return {
         message: 'Hello Vue!',
         foods: [],
-        currentPage: 1,
+        currentPage: 1,  // 目前在哪一頁
         pageSize: 12,
         total: 0,
+        caloriesArrowMode: 0, // 0=不排序, 1=由大到小, 2=由小到大
       }
     },
     watch: {
@@ -92,11 +97,23 @@
     },
     // 網頁要用的方法寫在這裡
     methods: {
+      // 改變卡洛里排序模式
+      onChangeCaloriesMode() {
+        this.currentPage = 1;
+
+        if(this.caloriesArrowMode == 0) this.caloriesArrowMode = 1;        
+        else if(this.caloriesArrowMode == 1) this.caloriesArrowMode = 2;
+        else
+          this.caloriesArrowMode = 0;
+
+        // 重新打API排序
+        this.fetch();
+      },
       onSizeChange(size) {
         this.currentPage = 1;
         this.fetch();
       },
-      onCurrentChange(page) {
+      onCurrentChange() {
         this.fetch();
       },
       // 分頁被點擊了上一頁
@@ -105,11 +122,11 @@
       },
       // 分頁被點擊了下一頁
       onNextClick(page) {
-
+       
       },
       fetch() {
         // 打API
-        axios.get('/demo/foods?page=' + this.currentPage + '&count=' + this.pageSize)
+        axios.get('/demo/foods?page=' + this.currentPage + '&count=' + this.pageSize + "&caloriesSortMode=" + this.caloriesArrowMode)
           .then((response) => {
             // get完成後收到的資料可以在這裡處理
             console.log(response);

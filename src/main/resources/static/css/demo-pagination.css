@@ -40,6 +40,10 @@ table td.r, table th.r {
   text-align: center;
 }
 
+.arrow-down {
+  transform: rotate(180deg);
+}
+
 .btn {
   display: flex;
   width: 120px;
