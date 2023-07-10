@@ -56,6 +56,38 @@ public class GameController {
         }
     }
 
+    @RequestMapping(value = "/game", method = RequestMethod.PUT,
+        consumes = MediaType.APPLICATION_JSON_VALUE,  // 傳入的資料格式
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public BaseResponse updateGame(@RequestBody GameEntity data) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
+        
+            stmt = conn.prepareStatement("UPDATE storesystem SET name=?, category=?, developer=?, price=?, quantity=?, inchange=?, outchange=? WHERE id=?");
+            stmt.setString(1, data.getName());
+            stmt.setString(2, data.getCategory());
+            stmt.setString(3, data.getDeveloper());
+            stmt.setInt(4, data.getPrice());
+            stmt.setInt(5, data.getQuantity());
+            stmt.setDate(6, data.getInchange());
+            stmt.setDate(7, data.getOutchange());
+            stmt.setInt(8, data.getId());
+
+            stmt.executeUpdate();
+
+            return new BaseResponse(0, "更新成功");
+
+        }catch(SQLException e) {
+            return new BaseResponse(e.getErrorCode(), e.getMessage());
+        }catch(ClassNotFoundException e) {
+            return new BaseResponse(1,"無法註冊驅動程式");
+        }
+    }
+
     private GameResponse getGameList() {
         Connection conn = null;
         Statement stmt = null;
