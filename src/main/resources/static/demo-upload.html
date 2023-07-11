@@ -48,6 +48,7 @@
     <div class="upload-btn valign-text-middle notosanstc-medium-white-16px" @click="onUpload">上傳</div>
 
 
+    <img ref="cover" />
 </body>
 
 <script>
@@ -112,7 +113,8 @@
                         if (response.data.code == 0) {
                             this.$message.success('上傳成功');
 
-                            // ToDo: 其他事項                        
+                            // ToDo: 其他事項
+                            this.$refs.cover.src = response.data.data;                     
                         }
                     })
                     .catch((error) => {
@@ -129,8 +131,6 @@
 
                 const files = event.dataTransfer.files;
                 if (files.length === 0) return;
-
-                this.$emit("selectedFile", files[0]);
             },
             selectedFile(event) {
 
