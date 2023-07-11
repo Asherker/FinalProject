@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <!-- 引入axios套件，用來透過HTTP協定在網頁內呼叫後端的API -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- 引入Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- 引入Element UI介面庫-->
+    <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <!-- Import Vue 3 -->
+    <script src="//unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+
+    <link rel="stylesheet" href="css/demo-upload-style.css" />
+</head>
+
+<body id="app">
+    <div>{{ message }}</div>
+    <br />
+    <form class="self-container" id="upload-form" method="post" enctype="multipart/form-data" action="">
+        <div v-if="isPreview" class="btnclose" @click="isPreview = false">
+            <img class="icon-close" src="./imgs/iconCloseWhite.svg" alt="icon-close" />
+        </div>
+        <img v-if="isPreview" class="preview-image" src="./imgs/iconUploadImage.png" />
+        <div :class="['drop-container', disabled ? 'disabled-pointer':'']" type="submit" id="drop-area"
+            @dragover.prevent="dragoverHandler" @drop="dropHandler">
+            <div class="self-row">
+                <img class="upload-cloud-image" src="./imgs/iconUploadCloud.png" />
+                <div class="upload-prompt-text">選擇圖片或拖曳至此處</div>
+            </div>
+            <div class="upload-suggest-text">建議尺寸 16:9</div>
+            <div class="upload-suggest-text">JPG, PNG, 檔案大小不得超過2MB</div>
+            <label :class="['upload-button', disabled ? 'disabled-pointer':'']">
+                <div class="upload-button-text valign-text-middle notosanstc-medium-white-16px">選擇圖檔</div>
+                <input type="file" id="file-input" name="myFile" class="upload-input" />
+            </label>
+        </div>
+    </form>
+
+
+    <div class="upload-btn valign-text-middle notosanstc-medium-white-16px" @click="onUpload">上傳</div>
+
+
+</body>
+
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                message: '檔案上傳DEMO',
+
+                isPreview: false,
+                selectedFile: undefined
+
+            }
+        },
+        mounted() {
+            const form = document.querySelector('.self-container');
+            const fileInput = document.querySelector('.upload-input');
+
+            fileInput.addEventListener('change', e => {
+                e.preventDefault();
+
+                const files = fileInput.files;
+                if (files.length === 0) return;
+                this.selectedFile = files[0];
+
+                // 預覽相片
+                if (this.needPreview != 'no') {
+                    this.isPreview = true;
+                    this.$nextTick(() => {
+                        const preview = document.querySelector('.preview-image');
+                        preview.src = URL.createObjectURL(files[0]);
+                    });
+                }
+            });
+        },
+        // 即時監看資料有無變動
+        watch: {
+            preview(newVal) {
+                console.log(newVal);
+            },
+        },
+        methods: {
+            onUpload() {
+                console.log(this.selectedFile);
+
+                if(!this.selectedFile) {
+                    this.$message.warning('請先選擇檔案');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("files", this.selectedFile);
+
+                const headers = {
+                    'Content-Type': 'multipart/form-data'
+                }
+
+                axios.post('/file', formData, {}, headers)
+                    .then((response) => {
+                        console.log(response);
+                        if (response.data.code == 0) {
+                            this.$message.success('上傳成功');
+
+                            // ToDo: 其他事項                        
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.$message.error('上傳失敗');
+                    });
+
+            },
+            dragoverHandler(event) {
+                event.preventDefault()
+            },
+            dropHandler(event) {
+                event.preventDefault()
+
+                const files = event.dataTransfer.files;
+                if (files.length === 0) return;
+
+                this.$emit("selectedFile", files[0]);
+            },
+            selectedFile(event) {
+
+            }
+        }
+    }).use(ElementPlus).mount('#app');
+
+</script>
+
+</html>
