@@ -6,15 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.LoginResponse;
 
 @RestController
 public class LoginController {
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public LoginResponse Login(String username, String password) {
@@ -29,11 +35,10 @@ public class LoginController {
 
         // 註冊mySQL資料庫驅動程式
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
 
             // 連線資料庫
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/shopping?" +
-                                               "user=root&password=0000");
+            conn = DriverManager.getConnection(mySqlConfigBean.getUrl() + "?user=" + mySqlConfigBean.getUsername() + "&password=" + mySqlConfigBean.getPassword());
 
             // 取得Statement物件
             stmt = conn.createStatement();
