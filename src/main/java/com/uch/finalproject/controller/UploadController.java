@@ -22,7 +22,9 @@ public class UploadController {
     private String serverUploadPath;
 
     @PostMapping("/file")
-    public UploadResponse uploadFileMulti(@RequestParam("files") MultipartFile[] uploadfiles) {
+    public UploadResponse uploadFileMulti(@RequestParam("files") MultipartFile[] uploadfiles) throws InterruptedException {
+
+        Thread.sleep(3000);
     
         String fileName = uploadfiles[0].getOriginalFilename();
         try {

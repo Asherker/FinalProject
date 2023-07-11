@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.ProductEntity;
 import com.uch.finalproject.model.ProductResponse;
 
@@ -19,7 +21,9 @@ import com.uch.finalproject.model.ProductResponse;
 
 @RestController
 public class ProductController {
-
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+    
     // API入口
     @RequestMapping(value="/product", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductResponse Product() {
@@ -33,7 +37,7 @@ public class ProductController {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
 
             // 連接資料庫
             conn = DriverManager.getConnection("jdbc:mysql://localhost/shopping?" + 

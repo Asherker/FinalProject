@@ -8,18 +8,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.BaseResponse;
 import com.uch.finalproject.model.GameEntity;
 import com.uch.finalproject.model.GameResponse;
 
 @RestController
 public class GameController {
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+
     @RequestMapping(value = "/games", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public GameResponse games() {
         return getGameList();
@@ -33,7 +38,7 @@ public class GameController {
         PreparedStatement stmt = null;
         
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
             conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
         
             stmt = conn.prepareStatement("INSERT INTO storesystem VALUES(null, ?, ?, ?, ?, ?, ?, ?)");
@@ -64,7 +69,7 @@ public class GameController {
         PreparedStatement stmt = null;
         
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
             conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
         
             stmt = conn.prepareStatement("UPDATE storesystem SET name=?, category=?, developer=?, price=?, quantity=?, inchange=?, outchange=? WHERE id=?");
@@ -94,7 +99,7 @@ public class GameController {
         ResultSet rs = null;
 
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
             conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from storesystem");//這裡後續要修改資料庫路徑以及要修改的項目

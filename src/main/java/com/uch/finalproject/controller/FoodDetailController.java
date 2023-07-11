@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.FoodDetailEntity;
 import com.uch.finalproject.model.FoodDetailResponse;
 import com.uch.finalproject.model.FoodEntitly;
@@ -19,6 +21,9 @@ import com.uch.finalproject.model.FoodResponse;
 
 @RestController
 public class FoodDetailController {
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+    
     @RequestMapping(value = "/foodDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public FoodDetailResponse foodDetail(int id) {
         return getFoodDetail(id);
@@ -30,7 +35,7 @@ public class FoodDetailController {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
 
             conn = DriverManager.getConnection("jdbc:mysql://localhost/shopping?user=root&password=0000");
 

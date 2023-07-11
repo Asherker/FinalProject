@@ -6,17 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.FoodDetailResponse;
 import com.uch.finalproject.model.GameDetailEntity;
 import com.uch.finalproject.model.GameDetailResponse;
 
 @RestController
 public class GameDetailController {
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+    
     @RequestMapping(value = "/gameDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public GameDetailResponse gameDetail(int id) {  // 這個API需要傳入id參數來找到指定的遊戲資訊
         return getGameDetail(id);
@@ -28,7 +33,7 @@ public class GameDetailController {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
 
             conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
 

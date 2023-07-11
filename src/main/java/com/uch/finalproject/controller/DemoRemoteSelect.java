@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.GameDetailEntity;
 import com.uch.finalproject.model.GameDetailResponse;
 import com.uch.finalproject.model.GameResponse;
@@ -20,6 +22,9 @@ import com.uch.finalproject.model.StringArrayResponse;
 @RestController
 @RequestMapping("/game")
 public class DemoRemoteSelect {
+    @Autowired
+    private MySqlConfigBean mySqlConfigBean;
+    
     @RequestMapping(value = "/name", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public StringArrayResponse getGameName(String keyword) {
         Connection conn = null;
@@ -27,7 +32,7 @@ public class DemoRemoteSelect {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(mySqlConfigBean.getDriverClassName());
 
             conn = DriverManager.getConnection("jdbc:mysql://localhost/projectdata?user=root&password=0000");
 
