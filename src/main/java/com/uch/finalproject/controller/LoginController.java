@@ -38,7 +38,7 @@ public class LoginController {
             Class.forName(mySqlConfigBean.getDriverClassName());
 
             // 連線資料庫
-            conn = DriverManager.getConnection(mySqlConfigBean.getUrl() + "?user=" + mySqlConfigBean.getUsername() + "&password=" + mySqlConfigBean.getPassword());
+            conn = DriverManager.getConnection(mySqlConfigBean.getUrlShopping() + "?user=" + mySqlConfigBean.getUsername() + "&password=" + mySqlConfigBean.getPassword());
 
             // 取得Statement物件
             stmt = conn.createStatement();

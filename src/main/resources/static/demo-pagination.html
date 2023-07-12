@@ -24,6 +24,15 @@
 </head>
 
 <body id="app">
+  
+  <!-- 搜尋 -->
+  <form v-on:submit.prevent="onSearch" autocomplete="off">
+    <label for="search" >Search</label>
+    <input id="search" type="search" v-model="keyword">
+    <span class="caret"></span>
+  </form>
+  
+  <br/>
   <table>
     <thead>
       <tr>
@@ -70,7 +79,7 @@
 
   // Vue初始化
   const { createApp } = Vue
-
+  
   createApp({
     data() {
       // 網頁要使用的變數放這裡
@@ -81,6 +90,7 @@
         pageSize: 12,
         total: 0,
         caloriesArrowMode: 0, // 0=不排序, 1=由大到小, 2=由小到大
+        keyword: '',
       }
     },
     watch: {
@@ -97,6 +107,24 @@
     },
     // 網頁要用的方法寫在這裡
     methods: {
+      onSearch() {
+        // 打API要搜尋資料
+        // 打API
+        axios.get('/v1/food/category?keyword=' + this.keyword + '&keyvalue=&page=' + this.currentPage + '&count=' + this.pageSize + "&caloriesSortMode=" + this.caloriesArrowMode)
+          .then((response) => {
+            // get完成後收到的資料可以在這裡處理
+            console.log(response);
+            // 將API的商品資料存到Vue建立的products變數
+            if (response.data.code == 0) {
+              // 將API拿到的data存到Vue變數
+              this.total = response.data.data.total;
+              this.foods = response.data.data.foods;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
       // 改變卡洛里排序模式
       onChangeCaloriesMode() {
         this.currentPage = 1;
@@ -107,14 +135,23 @@
           this.caloriesArrowMode = 0;
 
         // 重新打API排序
-        this.fetch();
+        if(this.keyword.length > 0) {
+          this.onSearch();
+        } else 
+          this.fetch();
       },
       onSizeChange(size) {
         this.currentPage = 1;
-        this.fetch();
+        if(this.keyword.length > 0) {
+          this.onSearch();
+        } else 
+          this.fetch();
       },
       onCurrentChange() {
-        this.fetch();
+        if(this.keyword.length > 0) {
+          this.onSearch();
+        } else 
+          this.fetch();
       },
       // 分頁被點擊了上一頁
       onPrevClick(page) {
