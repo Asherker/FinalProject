@@ -179,3 +179,9 @@ hr{
 	font-weight: 600;
 	color: #202020;
 }
+
+.old-price {
+	font-size: 0.8em;
+    text-decoration: line-through;
+	color: #44444444;
+}

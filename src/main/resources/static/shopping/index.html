@@ -77,6 +77,7 @@
 		data() {
 			return {
 				message: 'Hello Page B',
+
 				// API給的商品資訊放這裡
 				product_items: [],
 
@@ -86,7 +87,7 @@
 		},
 		// 網頁載入完成會被呼叫的方法
 		mounted() {
-			// 打API要商品資訊(目前是假資料)
+			// TODO: 打API要商品資訊(目前是假資料)
 			this.product_items = [
 				{
 					id: 1,
