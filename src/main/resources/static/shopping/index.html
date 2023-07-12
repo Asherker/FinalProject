@@ -49,9 +49,9 @@
 							<span v-if="item.showDiscountBadge" class="discount">{{ item.discountBadgeMessage}}</span>
 							<span v-if="item.showEventBadge" class="new">{{ item.eventBadgeMessage }}</span>
 							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+								<li><a href="#"><i class="fas fa-shopping-cart" @click="onAddCart(index)"></i></a></li>
 								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
+								<li><a href="#"><i class="fab fa-facebook"></i></a></li>
 								<li><a href="#"><i class="fas fa-expand"></i></a></li>
 							</ul>
 						</div>
@@ -79,6 +79,9 @@
 				message: 'Hello Page B',
 				// API給的商品資訊放這裡
 				product_items: [],
+
+				// 新增到購物車裡面的商品
+				cart_itmes: [],
 			}
 		},
 		// 網頁載入完成會被呼叫的方法
@@ -86,6 +89,7 @@
 			// 打API要商品資訊(目前是假資料)
 			this.product_items = [
 				{
+					id: 1,
 					image_url: 'https://www.gu-global.com/tw/hmall/test/u0000000008561/main/first/561/1.jpg',
 					title: '服飾一號',
 					price: 500,
@@ -96,6 +100,7 @@
 					eventBadgeMessage: '',
 				},
 				{
+					id: 2,
 					image_url: 'https://www.gu-global.com/tw/hmall/test/u0000000008565/main/first/561/1.jpg',
 					title: '服飾2號',
 					price: 400,
@@ -105,6 +110,7 @@
 					showEventBadge: false,
 					eventBadgeMessage: '',
 				},{
+					id: 3,
 					image_url: 'https://www.gu-global.com/tw/hmall/test/u0000000008189/main/first/561/1.jpg',
 					title: '服飾3號',
 					price: 600,
@@ -114,6 +120,7 @@
 					showEventBadge: true,
 					eventBadgeMessage: '新上架',
 				},{
+					id: 4,
 					image_url: 'https://www.gu-global.com/tw/hmall/test/u0000000008091/main/first/561/1.jpg',
 					title: '服飾4號',
 					price: 800,
@@ -125,6 +132,34 @@
 				},
 
 			];
+		},
+		methods: {
+			// 新增商品到購物車
+			onAddCart(index) {
+				let in_product = this.product_items[index];
+
+				// 判斷購物車有沒有該商品了
+				let isExists = false;
+				for(let i in this.cart_itmes) {
+					if(this.cart_itmes[i].id === in_product.id) {
+						this.cart_itmes[i].count++;  // 已存在購物車, 數量+1
+						isExists = true;
+					} 
+				}
+
+				// 不存在，新增到購物車
+				if(!isExists) {
+					in_product.count = 1;
+					this.cart_itmes.push(in_product);
+				}
+
+				console.log(JSON.stringify(this.cart_itmes, null, 2));
+
+				// 將資料紀錄到localStorage
+				localStorage.setItem('cart_items', JSON.stringify(this.cart_itmes));
+
+				this.$message.success('已加入購物車！')
+			}
 		}
 	}).use(ElementPlus).mount('#app');
 
