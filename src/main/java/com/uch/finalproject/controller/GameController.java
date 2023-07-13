@@ -20,6 +20,8 @@ import com.uch.finalproject.model.BaseResponse;
 import com.uch.finalproject.model.GameEntity;
 import com.uch.finalproject.model.GameResponse;
 
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
 public class GameController {
     @Autowired
@@ -33,7 +35,7 @@ public class GameController {
     @RequestMapping(value = "/game", method = RequestMethod.POST,
         consumes = MediaType.APPLICATION_JSON_VALUE,  // 傳入的資料格式
         produces = MediaType.APPLICATION_JSON_VALUE)
-    public BaseResponse addGame(@RequestBody GameEntity data) {
+    public BaseResponse addGame(@Parameter(description = "遊戲內容") @RequestBody GameEntity data) {
         Connection conn = null;
         PreparedStatement stmt = null;
         

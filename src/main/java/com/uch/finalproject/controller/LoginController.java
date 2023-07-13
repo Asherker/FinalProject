@@ -11,19 +11,43 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uch.finalproject.bean.MySqlConfigBean;
 import com.uch.finalproject.model.LoginResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 public class LoginController {
     @Autowired
     private MySqlConfigBean mySqlConfigBean;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public LoginResponse Login(String username, String password) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Tag(name = "登入API")
+    @Operation(summary = "登入系統", description = "登入這個超級系統")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "API執行成功", content = {
+            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = LoginResponse.class)))
+        }),
+        @ApiResponse(responseCode = "401", description = "沒有權限", content = {
+            @Content()
+        }),
+        @ApiResponse(responseCode = "999", description = "伺服器內部錯誤", content = {
+            @Content()
+        })
+    })
+    public LoginResponse Login(
+        @Parameter(description = "帳號名稱", example = "andy") @RequestParam(defaultValue = "") String username, 
+        @Parameter(description = "密碼", example = "1234") @RequestParam(defaultValue = "") String password) {
         return checkAccount(username, password);
     }
 
