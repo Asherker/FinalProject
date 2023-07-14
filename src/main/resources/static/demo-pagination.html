@@ -110,7 +110,7 @@
       onSearch() {
         // 打API要搜尋資料
         // 打API
-        axios.get('/v1/food/category?keyword=' + this.keyword + '&keyvalue=&page=' + this.currentPage + '&count=' + this.pageSize + "&caloriesSortMode=" + this.caloriesArrowMode)
+        axios.get('/v1/food/category?column=category,name&keyword=' + this.keyword + '&keyvalue=&page=' + this.currentPage + '&count=' + this.pageSize + "&caloriesSortMode=" + this.caloriesArrowMode)
           .then((response) => {
             // get完成後收到的資料可以在這裡處理
             console.log(response);
